@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoría del Color</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+        :root {
+            --rojo:     #e63946;
+            --azul:     #457b9d;
+            --amarillo: #f4d35e;
+            --verde:    #52b788;
+            --naranja:  #f77f00;
+            --violeta:  #7b2d8b;
+            --negro:    #1d1d1d;
+            --gris:     #f8f8f8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--negro);
+            background: #fff;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: #1d1d1d; z-index: 100;
+            padding: 16px 48px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; color: #fff; text-decoration: none;
+        }
+        nav ul { display: flex; gap: 24px; list-style: none; }
+        nav ul a {
+            color: rgba(255,255,255,0.7); text-decoration: none;
+            font-size: 0.85rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav ul a:hover { color: #fff; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1d1d1d 0%, #2d1b4e 50%, #1a3a5c 100%);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 120px 40px 80px;
+            position: relative; overflow: hidden;
+        }
+
+        .hero-circles {
+            position: absolute; inset: 0;
+            pointer-events: none;
+        }
+
+        .circle {
+            position: absolute; border-radius: 50%;
+            opacity: 0.15; filter: blur(60px);
+            animation: float 8s infinite ease-in-out;
+        }
+        .circle-1 { width: 400px; height: 400px; background: #e63946; top: -100px; left: -100px; animation-delay: 0s; }
+        .circle-2 { width: 350px; height: 350px; background: #f4d35e; top: 50%; right: -80px; animation-delay: 2s; }
+        .circle-3 { width: 300px; height: 300px; background: #457b9d; bottom: -80px; left: 30%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%,100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 700px; }
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            padding: 6px 20px; border-radius: 20px;
+            font-size: 0.78rem; letter-spacing: 0.15em;
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            color: #fff; line-height: 1.1; margin-bottom: 24px;
+        }
+        .hero h1 span { color: var(--amarillo); }
+        .hero p {
+            color: rgba(255,255,255,0.7); font-size: 1.1rem;
+            line-height: 1.7; margin-bottom: 40px;
+        }
+        .hero-btn {
+            display: inline-block;
+            background: #fff; color: #1d1d1d;
+            padding: 14px 36px; border-radius: 30px;
+            text-decoration: none; font-weight: 600;
+            font-size: 0.9rem; transition: all 0.3s;
+        }
+        .hero-btn:hover { background: var(--amarillo); transform: translateY(-2px); }
+
+        /* SECCIONES */
+        section { padding: 96px 48px; }
+
+        .seccion-titulo {
+            text-align: center; margin-bottom: 64px;
+        }
+        .seccion-titulo .tag {
+            display: inline-block; font-size: 0.72rem;
+            font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--azul);
+            margin-bottom: 12px;
+        }
+        .seccion-titulo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem; font-weight: 700;
+            color: var(--negro); margin-bottom: 14px;
+        }
+        .seccion-titulo p {
+            color: #666; font-size: 1rem;
+            max-width: 560px; margin: 0 auto; line-height: 1.7;
+        }
+
+        /* CÍRCULO CROMÁTICO */
+        .circulo-seccion { background: var(--gris); }
+
+        .circulo-grid {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 64px; align-items: center;
+        }
+
+        .circulo-svg-wrap {
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .circulo-svg {
+            width: 360px; height: 360px;
+            animation: spin-slow 20s linear infinite;
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .circulo-texto h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; margin-bottom: 16px;
+        }
+        .circulo-texto p {
+            color: #555; line-height: 1.8; margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        /* COLORES PRIMARIOS, SECUNDARIOS, TERCIARIOS */
+        .colores-seccion { background: #fff; }
+
+        .colores-tabs {
+            max-width: 900px; margin: 0 auto;
+        }
+
+        .tabs-nav {
+            display: flex; gap: 8px; margin-bottom: 40px;
+            justify-content: center; flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 24px; border-radius: 30px; border: 2px solid #ddd;
+            background: transparent; cursor: pointer; font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 0.85rem; transition: all 0.2s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--negro); color: #fff; border-color: var(--negro);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .colores-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+
+        .color-card {
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .color-card:hover { transform: translateY(-6px); }
+
+        .color-muestra {
+            height: 140px;
+        }
+        .color-info {
+            padding: 16px 20px; background: #fff;
+        }
+        .color-info h4 {
+            font-weight: 700; font-size: 1rem; margin-bottom: 4px;
+        }
+        .color-info p { color: #777; font-size: 0.82rem; }
+        .color-info .hex {
+            display: inline-block; margin-top: 8px;
+            font-size: 0.75rem; font-weight: 600;
+            font-family: monospace; background: #f0f0f0;
+            padding: 2px 8px; border-radius: 4px;
+        }
+
+        /* PSICOLOGÍA DEL COLOR */
+        .psicologia-seccion { background: var(--negro); }
+        .psicologia-seccion .seccion-titulo .tag { color: var(--amarillo); }
+        .psicologia-seccion .seccion-titulo h2 { color: #fff; }
+        .psicologia-seccion .seccion-titulo p { color: rgba(255,255,255,0.6); }
+
+        .psicologia-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+
+        .psico-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 28px 24px;
+            transition: all 0.3s;
+        }
+        .psico-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+        }
+        .psico-dot {
+            width: 48px; height: 48px; border-radius: 50%;
+            margin-bottom: 16px;
+        }
+        .psico-card h4 {
+            font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: 8px;
+        }
+        .psico-card p { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6; }
+
+        /* CONTRASTE Y ARMONÍA */
+        .armonia-seccion { background: var(--gris); }
+
+        .armonia-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+        }
+
+        .armonia-card {
+            background: #fff; border-radius: 16px; padding: 32px 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--azul);
+        }
+        .armonia-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; margin-bottom: 12px; color: var(--negro);
+        }
+        .armonia-card p { color: #555; font-size: 0.9rem; line-height: 1.7; }
+        .armonia-paleta {
+            display: flex; gap: 6px; margin-top: 16px;
+        }
+        .armonia-paleta span {
+            flex: 1; height: 32px; border-radius: 6px;
+        }
+
+        /* HISTORIA */
+        .historia-seccion { background: #fff; }
+
+        .historia-timeline {
+            max-width: 800px; margin: 0 auto;
+            position: relative;
+        }
+        .historia-timeline::before {
+            content: ''; position: absolute;
+            left: 24px; top: 0; bottom: 0;
+            width: 2px; background: #e0e0e0;
+        }
+        .timeline-item {
+            display: flex; gap: 32px; margin-bottom: 48px;
+            position: relative;
+        }
+        .timeline-dot {
+            width: 48px; height: 48px; border-radius: 50%;
+            flex-shrink: 0; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.8rem;
+            color: #fff; position: relative; z-index: 1;
+        }
+        .timeline-content h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; margin-bottom: 8px;
+        }
+        .timeline-content p { color: #555; font-size: 0.9rem; line-height: 1.7; }
+
+        /* FOOTER */
+        footer {
+            background: var(--negro); color: rgba(255,255,255,0.6);
+            text-align: center; padding: 32px;
+            font-size: 0.85rem;
+        }
+        footer span { color: #fff; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="#" class="logo">🎨 Teoría del Color</a>
+    <ul>
+        <li><a href="#circulo">Círculo</a></li>
+        <li><a href="#colores">Colores</a></li>
+        <li><a href="#psicologia">Psicología</a></li>
+        <li><a href="#armonia">Armonía</a></li>
+        <li><a href="#historia">Historia</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+    <div class="hero-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+    <div class="hero-content">
+        <div class="hero-tag">Fundamentos del diseño visual</div>
+        <h1>Teoría del <span>Color</span></h1>
+        <p>Explora el fascinante mundo del color: desde el círculo cromático hasta la psicología que hay detrás de cada tono. Aprende cómo el color influye en nuestras emociones y decisiones.</p>
+        <a href="#circulo" class="hero-btn">Comenzar exploración</a>
+    </div>
+</section>
+
+<!-- CÍRCULO CROMÁTICO -->
+<section class="circulo-seccion" id="circulo">
+    <div class="seccion-titulo">
+        <div class="tag">Fundamento básico</div>
+        <h2>El Círculo Cromático</h2>
+        <p>Herramienta fundamental que organiza los colores según su relación y posición en el espectro visual.</p>
+    </div>
+    <div class="circulo-grid">
+        <div class="circulo-svg-wrap">
+            <svg class="circulo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <clipPath id="circulo-clip">
+                        <circle cx="100" cy="100" r="90"/>
+                    </clipPath>
+                </defs>
+                <!-- 12 segmentos del círculo cromático -->
+                <g clip-path="url(#circulo-clip)">
+                    <path d="M100,100 L100,10 A90,90 0 0,1 145,22 Z" fill="#ff0000"/>
+                    <path d="M100,100 L145,22 A90,90 0 0,1 178,55 Z" fill="#ff6600"/>
+                    <path d="M100,100 L178,55 A90,90 0 0,1 190,100 Z" fill="#ffcc00"/>
+                    <path d="M100,100 L190,100 A90,90 0 0,1 178,145 Z" fill="#ccff00"/>
+                    <path d="M100,100 L178,145 A90,90 0 0,1 145,178 Z" fill="#00cc00"/>
+                    <path d="M100,100 L145,178 A90,90 0 0,1 100,190 Z" fill="#00cc99"/>
+                    <path d="M100,100 L100,190 A90,90 0 0,1 55,178 Z" fill="#0099ff"/>
+                    <path d="M100,100 L55,178 A90,90 0 0,1 22,145 Z" fill="#0033ff"/>
+                    <path d="M100,100 L22,145 A90,90 0 0,1 10,100 Z" fill="#6600cc"/>
+                    <path d="M100,100 L10,100 A90,90 0 0,1 22,55 Z" fill="#9900cc"/>
+                    <path d="M100,100 L22,55 A90,90 0 0,1 55,22 Z" fill="#cc0099"/>
+                    <path d="M100,100 L55,22 A90,90 0 0,1 100,10 Z" fill="#ff0066"/>
+                </g>
+                <circle cx="100" cy="100" r="40" fill="white"/>
+                <text x="100" y="105" text-anchor="middle" font-size="10" font-family="Inter" fill="#1d1d1d" font-weight="600">Color</text>
+            </svg>
+        </div>
+        <div class="circulo-texto">
+            <h3>¿Qué es el círculo cromático?</h3>
+            <p>El círculo cromático es una representación visual de los colores organizados por su relación natural en el espectro. Fue creado por Isaac Newton en 1666 al pasar luz blanca a través de un prisma.</p>
+            <p>Sirve como guía para combinar colores de manera armoniosa y entender las relaciones entre ellos: complementarios, análogos, triádicos y más.</p>
+            <p>Girar el círculo lentamente simboliza la continuidad e interconexión de todos los colores que existen en la naturaleza.</p>
+        </div>
+    </div>
+</section>
+
+<!-- COLORES -->
+<section class="colores-seccion" id="colores">
+    <div class="seccion-titulo">
+        <div class="tag">Clasificación</div>
+        <h2>Tipos de Colores</h2>
+        <p>Los colores se clasifican según su origen y cómo se obtienen al mezclarlos.</p>
+    </div>
+    <div class="colores-tabs">
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="cambiarTab('primarios')">Primarios</button>
+            <button class="tab-btn" onclick="cambiarTab('secundarios')">Secundarios</button>
+            <button class="tab-btn" onclick="cambiarTab('terciarios')">Terciarios</button>
+        </div>
+
+        <div class="tab-content active" id="tab-primarios">
+            <div class="colores-grid">
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#ff0000"></div>
+                    <div class="color-info">
+                        <h4>Rojo</h4>
+                        <p>Color primario puro. No puede obtenerse mezclando otros colores.</p>
+                        <span class="hex">#FF0000</span>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#ffff00"></div>
+                    <div class="color-info">
+                        <h4>Amarillo</h4>
+                        <p>El más luminoso de los primarios. Base de los colores cálidos.</p>
+                        <span class="hex">#FFFF00</span>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#0000ff"></div>
+                    <div class="color-info">
+                        <h4>Azul</h4>
+                        <p>El más frío de los primarios. Evoca profundidad y calma.</p>
+                        <span class="hex">#0000FF</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-secundarios">
+            <div class="colores-grid">
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#ff8000"></div>
+                    <div class="color-info">
+                        <h4>Naranja</h4>
+                        <p>Mezcla de rojo + amarillo. Energía, creatividad y entusiasmo.</p>
+                        <span class="hex">#FF8000</span>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#008000"></div>
+                    <div class="color-info">
+                        <h4>Verde</h4>
+                        <p>Mezcla de azul + amarillo. Naturaleza, equilibrio y esperanza.</p>
+                        <span class="hex">#008000</span>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#800080"></div>
+                    <div class="color-info">
+                        <h4>Violeta</h4>
+                        <p>Mezcla de rojo + azul. Creatividad, misterio y espiritualidad.</p>
+                        <span class="hex">#800080</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-terciarios">
+            <div class="colores-grid">
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#ff4000"></div>
+                    <div class="color-info"><h4>Rojo-Naranja</h4><p>Mezcla de rojo + naranja.</p><span class="hex">#FF4000</span></div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#ffbf00"></div>
+                    <div class="color-info"><h4>Amarillo-Naranja</h4><p>Mezcla de amarillo + naranja.</p><span class="hex">#FFBF00</span></div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#408000"></div>
+                    <div class="color-info"><h4>Amarillo-Verde</h4><p>Mezcla de amarillo + verde.</p><span class="hex">#408000</span></div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#004080"></div>
+                    <div class="color-info"><h4>Azul-Verde</h4><p>Mezcla de azul + verde.</p><span class="hex">#004080</span></div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#4000ff"></div>
+                    <div class="color-info"><h4>Azul-Violeta</h4><p>Mezcla de azul + violeta.</p><span class="hex">#4000FF</span></div>
+                </div>
+                <div class="color-card">
+                    <div class="color-muestra" style="background:#cc0066"></div>
+                    <div class="color-info"><h4>Rojo-Violeta</h4><p>Mezcla de rojo + violeta.</p><span class="hex">#CC0066</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PSICOLOGÍA -->
+<section class="psicologia-seccion" id="psicologia">
+    <div class="seccion-titulo">
+        <div class="tag">Impacto emocional</div>
+        <h2>Psicología del Color</h2>
+        <p>Cada color genera respuestas emocionales y psicológicas específicas en las personas.</p>
+    </div>
+    <div class="psicologia-grid">
+        <div class="psico-card"><div class="psico-dot" style="background:#e63946"></div><h4>Rojo</h4><p>Pasión, urgencia, energía y peligro. Aumenta el apetito y acelera el ritmo cardíaco.</p></div>
+        <div class="psico-card"><div class="psico-dot" style="background:#f77f00"></div><h4>Naranja</h4><p>Creatividad, entusiasmo y calidez. Estimula la comunicación y el optimismo.</p></div>
+        <div class="psico-card"><div class="psico-dot" style="background:#f4d35e"></div><h4>Amarillo</h4><p>Alegría, luminosidad y atención. El color más visible del espectro visible.</p></div>
+        <div class="psico-card"><div class="psico-dot" style="background:#52b788"></div><h4>Verde</h4><p>Naturaleza, equilibrio y tranquilidad. Asociado a la salud y el crecimiento.</p></div>
+        <div class="psico-card"><div class="psico-dot" style="background:#457b9d"></div><h4>Azul</h4><p>Confianza, calma y profesionalismo. El color preferido mundialmente.</p></div>
+        <div class="psico-card"><div class="psico-dot" style="background:#7b2d8b"></div><h4>Violeta</h4><p>Misterio, espiritualidad y lujo. Históricamente asociado a la realeza.</p></div>
+    </div>
+</section>
+
+<!-- ARMONÍA -->
+<section class="armonia-seccion" id="armonia">
+    <div class="seccion-titulo">
+        <div class="tag">Combinaciones</div>
+        <h2>Armonía y Contraste</h2>
+        <p>Las combinaciones de colores siguen principios que crean equilibrio y belleza visual.</p>
+    </div>
+    <div class="armonia-grid">
+        <div class="armonia-card">
+            <h4>Colores Complementarios</h4>
+            <p>Son opuestos en el círculo cromático. Crean el mayor contraste y se potencian mutuamente.</p>
+            <div class="armonia-paleta">
+                <span style="background:#e63946"></span>
+                <span style="background:#ffffff; border:1px solid #eee"></span>
+                <span style="background:#1a7c4e"></span>
+            </div>
+        </div>
+        <div class="armonia-card" style="border-left-color: var(--verde)">
+            <h4>Colores Análogos</h4>
+            <p>Son adyacentes en el círculo. Crean armonía suave y transiciones naturales.</p>
+            <div class="armonia-paleta">
+                <span style="background:#ff0000"></span>
+                <span style="background:#ff4000"></span>
+                <span style="background:#ff8000"></span>
+            </div>
+        </div>
+        <div class="armonia-card" style="border-left-color: var(--amarillo)">
+            <h4>Tríada de Colores</h4>
+            <p>Tres colores equidistantes en el círculo. Vibrantens y equilibrados al mismo tiempo.</p>
+            <div class="armonia-paleta">
+                <span style="background:#ff0000"></span>
+                <span style="background:#ffff00"></span>
+                <span style="background:#0000ff"></span>
+            </div>
+        </div>
+        <div class="armonia-card" style="border-left-color: var(--violeta)">
+            <h4>Monocromático</h4>
+            <p>Variaciones de un mismo color usando distintos niveles de brillo y saturación.</p>
+            <div class="armonia-paleta">
+                <span style="background:#0a2d5c"></span>
+                <span style="background:#1a5fba"></span>
+                <span style="background:#7ab3f0"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HISTORIA -->
+<section class="historia-seccion" id="historia">
+    <div class="seccion-titulo">
+        <div class="tag">A través del tiempo</div>
+        <h2>Historia del Color</h2>
+        <p>El estudio del color ha evolucionado durante siglos, desde la filosofía hasta la ciencia moderna.</p>
+    </div>
+    <div class="historia-timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background:#e63946">1666</div>
+            <div class="timeline-content">
+                <h4>Newton y el Prisma</h4>
+                <p>Isaac Newton descompuso la luz blanca con un prisma y descubrió que contenía todos los colores del espectro, creando el primer círculo cromático de la historia.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background:#f77f00">1810</div>
+            <div class="timeline-content">
+                <h4>Goethe y la Teoría del Color</h4>
+                <p>Johann Wolfgang von Goethe publicó su "Teoría de los Colores", explorando la percepción y el impacto psicológico del color, contrario a la visión puramente física de Newton.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background:#f4d35e">1905</div>
+            <div class="timeline-content">
+                <h4>Sistema Munsell</h4>
+                <p>Albert Munsell creó un sistema científico para describir colores usando tres dimensiones: matiz, valor y croma, base de muchos sistemas modernos.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background:#52b788">1931</div>
+            <div class="timeline-content">
+                <h4>Sistema CIE</h4>
+                <p>La Comisión Internacional de Iluminación estableció el primer espacio de color matemático universal, permitiendo medir y reproducir colores con precisión.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot" style="background:#457b9d">Hoy</div>
+            <div class="timeline-content">
+                <h4>Color Digital</h4>
+                <p>Los modelos RGB (luz), CMYK (impresión) y HSL (diseño) permiten reproducir millones de colores en pantallas e impresiones, transformando el diseño gráfico y visual.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>Proyecto educativo sobre <span>Teoría del Color</span> · Diseño visual y percepción cromática</p>
+</footer>
+
+<script>
+function cambiarTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// Scroll suave navbar
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+});
+</script>
+</body>
+</html>

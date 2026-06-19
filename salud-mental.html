@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salud Mental</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+        :root {
+            --verde:    #3d7a5e;
+            --verde2:   #52a47c;
+            --crema:    #f7f3ee;
+            --morado:   #6b4f8a;
+            --azul:     #4a7fa5;
+            --negro:    #1a1a2e;
+            --gris:     #f0ede8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--negro);
+            background: #fff;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            z-index: 100; padding: 16px 48px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; color: var(--verde);
+            text-decoration: none; font-weight: 700;
+        }
+        nav ul { display: flex; gap: 24px; list-style: none; }
+        nav ul a {
+            color: #555; text-decoration: none;
+            font-size: 0.85rem; font-weight: 500;
+            padding: 6px 14px; border-radius: 20px;
+            transition: all 0.2s;
+        }
+        nav ul a:hover { background: var(--crema); color: var(--verde); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--negro) 0%, #16213e 50%, #0f3460 100%);
+            display: flex; align-items: center;
+            padding: 120px 80px 80px;
+            position: relative; overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(61,122,94,0.3) 0%, transparent 60%);
+        }
+
+        .hero-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 64px; align-items: center;
+            position: relative; z-index: 1;
+        }
+
+        .hero-texto h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #fff; line-height: 1.15; margin-bottom: 24px;
+        }
+        .hero-texto h1 em { color: var(--verde2); font-style: italic; }
+        .hero-texto p {
+            color: rgba(255,255,255,0.75); font-size: 1.05rem;
+            line-height: 1.8; margin-bottom: 36px; font-weight: 300;
+        }
+        .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-prim {
+            background: var(--verde2); color: #fff;
+            padding: 13px 30px; border-radius: 30px;
+            text-decoration: none; font-weight: 600;
+            font-size: 0.9rem; transition: all 0.3s;
+        }
+        .btn-prim:hover { background: var(--verde); transform: translateY(-2px); }
+        .btn-sec {
+            background: transparent; color: #fff;
+            padding: 13px 30px; border-radius: 30px;
+            text-decoration: none; font-weight: 500;
+            font-size: 0.9rem; border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+        .btn-sec:hover { border-color: var(--verde2); color: var(--verde2); }
+
+        .hero-visual {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .hero-stat {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px; padding: 24px 20px; text-align: center;
+            transition: background 0.3s;
+        }
+        .hero-stat:hover { background: rgba(255,255,255,0.13); }
+        .hero-stat .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; font-weight: 700;
+            color: var(--verde2); margin-bottom: 6px;
+        }
+        .hero-stat p { color: rgba(255,255,255,0.65); font-size: 0.8rem; line-height: 1.4; }
+
+        /* SECCIÓN ALTERNADA */
+        .alt-section { padding: 96px 80px; }
+        .alt-section:nth-child(odd) { background: var(--crema); }
+        .alt-section:nth-child(even) { background: #fff; }
+
+        .alt-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 80px; align-items: center;
+        }
+
+        .alt-inner.reverse { direction: rtl; }
+        .alt-inner.reverse > * { direction: ltr; }
+
+        .alt-imagen {
+            position: relative;
+        }
+
+        .alt-imagen .img-box {
+            border-radius: 20px; overflow: hidden;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #e8f4ea, #c8e6d0);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 8rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            position: relative; z-index: 1;
+        }
+
+        .alt-imagen .img-deco {
+            position: absolute; bottom: -16px; left: -16px;
+            width: 70%; height: 70%;
+            border: 3px solid var(--verde2);
+            border-radius: 20px; z-index: 0; opacity: 0.3;
+        }
+
+        .alt-imagen.morado .img-box {
+            background: linear-gradient(135deg, #ede0f5, #d4b8e8);
+        }
+        .alt-imagen.morado .img-deco { border-color: var(--morado); }
+
+        .alt-imagen.azul .img-box {
+            background: linear-gradient(135deg, #dceef8, #b8d9ef);
+        }
+        .alt-imagen.azul .img-deco { border-color: var(--azul); }
+
+        .alt-texto .tag {
+            display: inline-block; font-size: 0.72rem;
+            font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--verde);
+            margin-bottom: 12px;
+        }
+        .alt-texto.morado .tag { color: var(--morado); }
+        .alt-texto.azul .tag { color: var(--azul); }
+
+        .alt-texto h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; font-weight: 700;
+            color: var(--negro); margin-bottom: 16px; line-height: 1.2;
+        }
+        .alt-texto p {
+            color: #555; font-size: 0.97rem;
+            line-height: 1.8; margin-bottom: 14px;
+        }
+
+        .alt-lista {
+            list-style: none; margin: 20px 0;
+        }
+        .alt-lista li {
+            display: flex; align-items: flex-start; gap: 10px;
+            color: #444; font-size: 0.9rem; line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .alt-lista li::before {
+            content: '✓'; color: var(--verde2);
+            font-weight: 700; flex-shrink: 0; margin-top: 1px;
+        }
+        .alt-lista.morado li::before { color: var(--morado); }
+        .alt-lista.azul li::before { color: var(--azul); }
+
+        /* SEÑALES DE ALERTA */
+        .alertas-seccion {
+            padding: 96px 80px;
+            background: var(--negro); color: #fff;
+        }
+        .sec-titulo {
+            text-align: center; max-width: 600px;
+            margin: 0 auto 56px;
+        }
+        .sec-titulo .tag {
+            display: inline-block; font-size: 0.72rem;
+            font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--verde2);
+            margin-bottom: 12px;
+        }
+        .sec-titulo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; color: #fff; margin-bottom: 14px;
+        }
+        .sec-titulo p { color: rgba(255,255,255,0.6); font-size: 0.97rem; line-height: 1.7; }
+
+        .alertas-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+        .alerta-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 28px 24px;
+            transition: all 0.3s;
+        }
+        .alerta-card:hover {
+            background: rgba(255,255,255,0.09);
+            transform: translateY(-4px);
+        }
+        .alerta-icon { font-size: 2.4rem; margin-bottom: 14px; }
+        .alerta-card h4 { color: #fff; font-weight: 600; margin-bottom: 8px; }
+        .alerta-card p { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.6; }
+
+        /* TIPS */
+        .tips-seccion { padding: 96px 80px; background: var(--gris); }
+
+        .tips-grid {
+            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+        }
+        .tip-card {
+            background: #fff; border-radius: 16px;
+            padding: 28px 20px; text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s;
+        }
+        .tip-card:hover { transform: translateY(-6px); }
+        .tip-num {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--verde); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.1rem;
+            margin: 0 auto 16px;
+        }
+        .tip-card h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--negro); }
+        .tip-card p { color: #666; font-size: 0.82rem; line-height: 1.6; }
+
+        /* RECURSOS */
+        .recursos-seccion { padding: 96px 80px; background: var(--verde); }
+        .recursos-seccion .sec-titulo .tag { color: rgba(255,255,255,0.7); }
+        .recursos-seccion .sec-titulo h2 { color: #fff; }
+        .recursos-seccion .sec-titulo p { color: rgba(255,255,255,0.8); }
+
+        .recursos-grid {
+            max-width: 900px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+        .recurso-card {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px; padding: 28px 24px; text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .recurso-card .icon { font-size: 2.5rem; margin-bottom: 14px; }
+        .recurso-card h4 { color: #fff; font-weight: 700; margin-bottom: 8px; }
+        .recurso-card p { color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; }
+        .recurso-card a {
+            display: inline-block;
+            background: #fff; color: var(--verde);
+            padding: 8px 20px; border-radius: 20px;
+            text-decoration: none; font-weight: 700;
+            font-size: 0.8rem; transition: all 0.2s;
+        }
+        .recurso-card a:hover { background: var(--crema); }
+
+        /* FOOTER */
+        footer {
+            background: var(--negro); color: rgba(255,255,255,0.6);
+            text-align: center; padding: 32px;
+            font-size: 0.85rem;
+        }
+        footer .emergencia {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; padding: 10px 24px;
+            border-radius: 30px; margin-bottom: 16px;
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* REVEAL */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-inner, .alt-inner { grid-template-columns: 1fr; gap: 40px; }
+            .alt-inner.reverse { direction: ltr; }
+            .hero { padding: 120px 32px 80px; }
+            .alt-section, .alertas-seccion, .tips-seccion, .recursos-seccion { padding: 64px 32px; }
+            .alertas-grid, .recursos-grid { grid-template-columns: 1fr; }
+            .tips-grid { grid-template-columns: repeat(2,1fr); }
+        }
+        @media (max-width: 600px) {
+            nav ul { display: none; }
+            .tips-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="#" class="logo">🌿 Salud Mental</a>
+    <ul>
+        <li><a href="#que-es">¿Qué es?</a></li>
+        <li><a href="#tipos">Tipos</a></li>
+        <li><a href="#senales">Señales</a></li>
+        <li><a href="#tips">Consejos</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+    <div class="hero-inner">
+        <div class="hero-texto reveal">
+            <h1>Tu mente también<br>merece <em>cuidado</em></h1>
+            <p>La salud mental es tan importante como la salud física. Conocer, entender y hablar sobre ella es el primer paso para vivir una vida plena y equilibrada.</p>
+            <div class="hero-btns">
+                <a href="#que-es" class="btn-prim">Aprender más</a>
+                <a href="#recursos" class="btn-sec">Ver recursos</a>
+            </div>
+        </div>
+        <div class="hero-visual reveal">
+            <div class="hero-stat">
+                <div class="num">1 de 4</div>
+                <p>personas experimenta un problema de salud mental en su vida</p>
+            </div>
+            <div class="hero-stat">
+                <div class="num">70%</div>
+                <p>de los casos no reciben tratamiento adecuado</p>
+            </div>
+            <div class="hero-stat">
+                <div class="num">800K</div>
+                <p>personas pierden la vida por suicidio cada año en el mundo</p>
+            </div>
+            <div class="hero-stat">
+                <div class="num">2030</div>
+                <p>año en que la depresión será la 1ª causa de discapacidad global</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- QUÉ ES -->
+<section class="alt-section" id="que-es">
+    <div class="alt-inner reveal">
+        <div class="alt-imagen">
+            <div class="img-box">🧠</div>
+            <div class="img-deco"></div>
+        </div>
+        <div class="alt-texto">
+            <span class="tag">Definición</span>
+            <h2>¿Qué es la salud mental?</h2>
+            <p>La salud mental es un estado de bienestar en el que una persona puede desarrollar sus capacidades, afrontar el estrés normal de la vida, trabajar de manera productiva y contribuir a su comunidad.</p>
+            <p>Según la OMS, la salud mental es parte fundamental de la salud en general. No existe salud sin salud mental.</p>
+            <ul class="alt-lista">
+                <li>Capacidad de manejar emociones y relaciones</li>
+                <li>Adaptarse a los cambios y adversidades</li>
+                <li>Sentido de propósito y bienestar personal</li>
+                <li>Equilibrio entre vida personal y profesional</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- TIPOS - IMAGEN DERECHA -->
+<section class="alt-section" id="tipos">
+    <div class="alt-inner reverse reveal">
+        <div class="alt-imagen morado">
+            <div class="img-box">💜</div>
+            <div class="img-deco"></div>
+        </div>
+        <div class="alt-texto morado">
+            <span class="tag">Condiciones comunes</span>
+            <h2>Tipos de trastornos mentales</h2>
+            <p>Los trastornos mentales son condiciones médicas que afectan el pensamiento, el estado de ánimo y el comportamiento. Son más comunes de lo que creemos.</p>
+            <ul class="alt-lista morado">
+                <li><strong>Depresión:</strong> tristeza persistente, pérdida de interés y energía</li>
+                <li><strong>Ansiedad:</strong> preocupación excesiva, miedo y tensión constante</li>
+                <li><strong>Estrés postraumático:</strong> reacciones a eventos traumáticos</li>
+                <li><strong>Trastorno bipolar:</strong> cambios extremos de estado de ánimo</li>
+                <li><strong>Esquizofrenia:</strong> distorsión de la realidad y el pensamiento</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- CAUSAS - IMAGEN IZQUIERDA -->
+<section class="alt-section">
+    <div class="alt-inner reveal">
+        <div class="alt-imagen azul">
+            <div class="img-box">🔍</div>
+            <div class="img-deco"></div>
+        </div>
+        <div class="alt-texto azul">
+            <span class="tag">Factores de riesgo</span>
+            <h2>¿Qué afecta la salud mental?</h2>
+            <p>La salud mental es el resultado de una combinación de factores biológicos, psicológicos y sociales. Ningún factor por sí solo determina el bienestar mental.</p>
+            <ul class="alt-lista azul">
+                <li>Genética y biología cerebral</li>
+                <li>Experiencias traumáticas en la infancia</li>
+                <li>Estrés crónico y presión laboral o académica</li>
+                <li>Aislamiento social y soledad</li>
+                <li>Consumo de sustancias psicoactivas</li>
+                <li>Enfermedades crónicas y dolor persistente</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- IMPACTO - IMAGEN DERECHA -->
+<section class="alt-section">
+    <div class="alt-inner reverse reveal">
+        <div class="alt-imagen">
+            <div class="img-box" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2)">🌱</div>
+            <div class="img-deco"></div>
+        </div>
+        <div class="alt-texto">
+            <span class="tag">Bienestar integral</span>
+            <h2>Impacto en la vida diaria</h2>
+            <p>La salud mental afecta todos los aspectos de nuestra vida: cómo pensamos, sentimos y actuamos. También influye en cómo manejamos el estrés y tomamos decisiones.</p>
+            <p>Cuando nuestra salud mental está comprometida, puede afectar nuestras relaciones, rendimiento en el trabajo o estudios y nuestra salud física.</p>
+            <ul class="alt-lista">
+                <li>Calidad del sueño y descanso</li>
+                <li>Relaciones interpersonales y sociales</li>
+                <li>Productividad y rendimiento académico</li>
+                <li>Sistema inmunológico y salud física general</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- SEÑALES DE ALERTA -->
+<section class="alertas-seccion" id="senales">
+    <div class="sec-titulo reveal">
+        <div class="tag">Reconocimiento temprano</div>
+        <h2>Señales de alerta</h2>
+        <p>Identificar a tiempo los síntomas es fundamental para buscar ayuda y comenzar la recuperación.</p>
+    </div>
+    <div class="alertas-grid">
+        <div class="alerta-card reveal">
+            <div class="alerta-icon">😔</div>
+            <h4>Cambios de humor</h4>
+            <p>Tristeza profunda, irritabilidad extrema o cambios emocionales repentinos que duran semanas.</p>
+        </div>
+        <div class="alerta-card reveal">
+            <div class="alerta-icon">😴</div>
+            <h4>Problemas de sueño</h4>
+            <p>Insomnio persistente, dormir demasiado o pesadillas frecuentes que afectan el descanso.</p>
+        </div>
+        <div class="alerta-card reveal">
+            <div class="alerta-icon">🚶</div>
+            <h4>Aislamiento social</h4>
+            <p>Retirarse de amigos, familia y actividades que antes disfrutabas sin razón aparente.</p>
+        </div>
+        <div class="alerta-card reveal">
+            <div class="alerta-icon">🍽️</div>
+            <h4>Cambios en el apetito</h4>
+            <p>Comer mucho más o mucho menos de lo habitual, con cambios notables en el peso.</p>
+        </div>
+        <div class="alerta-card reveal">
+            <div class="alerta-icon">💭</div>
+            <h4>Pensamientos negativos</h4>
+            <p>Pensamientos persistentes de desesperanza, inutilidad o ideas de hacerse daño.</p>
+        </div>
+        <div class="alerta-card reveal">
+            <div class="alerta-icon">⚡</div>
+            <h4>Dificultad para concentrarse</h4>
+            <p>Problemas para pensar con claridad, tomar decisiones o recordar cosas simples.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CONSEJOS -->
+<section class="tips-seccion" id="tips">
+    <div class="sec-titulo reveal" style="margin-bottom:56px; text-align:center; max-width:600px; margin-left:auto; margin-right:auto;">
+        <div class="tag" style="display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--verde); margin-bottom:12px;">Autocuidado</div>
+        <h2 style="font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--negro); margin-bottom:14px;">Cómo cuidar tu salud mental</h2>
+        <p style="color:#666; font-size:0.97rem; line-height:1.7;">Pequeños hábitos diarios pueden hacer una gran diferencia en tu bienestar emocional.</p>
+    </div>
+    <div class="tips-grid">
+        <div class="tip-card reveal">
+            <div class="tip-num">1</div>
+            <h4>Ejercicio regular</h4>
+            <p>30 minutos de actividad física al día libera endorfinas que mejoran el estado de ánimo.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:var(--morado)">2</div>
+            <h4>Duerme bien</h4>
+            <p>7-9 horas de sueño son esenciales para procesar emociones y recuperar la mente.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:var(--azul)">3</div>
+            <h4>Conexión social</h4>
+            <p>Mantener relaciones significativas con personas que te apoyen y escuchen.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:#e8944a">4</div>
+            <h4>Mindfulness</h4>
+            <p>La meditación y respiración consciente reducen el estrés y la ansiedad significativamente.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:var(--verde)">5</div>
+            <h4>Alimentación sana</h4>
+            <p>Una dieta balanceada influye directamente en el estado de ánimo y la energía mental.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:var(--morado)">6</div>
+            <h4>Busca ayuda</h4>
+            <p>Hablar con un profesional no es debilidad. Es el paso más valiente que puedes dar.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:var(--azul)">7</div>
+            <h4>Limita las pantallas</h4>
+            <p>Reducir el tiempo en redes sociales mejora la autoestima y la calidad del sueño.</p>
+        </div>
+        <div class="tip-card reveal">
+            <div class="tip-num" style="background:#e8944a">8</div>
+            <h4>Tiempo en naturaleza</h4>
+            <p>Pasar tiempo al aire libre reduce el cortisol y mejora el bienestar emocional.</p>
+        </div>
+    </div>
+</section>
+
+<!-- RECURSOS -->
+<section class="recursos-seccion" id="recursos">
+    <div class="sec-titulo reveal">
+        <div class="tag">Pedir ayuda es de valientes</div>
+        <h2>Recursos de apoyo</h2>
+        <p>Si tú o alguien que conoces necesita ayuda, estos recursos están disponibles.</p>
+    </div>
+    <div class="recursos-grid">
+        <div class="recurso-card reveal">
+            <div class="icon">📞</div>
+            <h4>Línea de crisis Colombia</h4>
+            <p>Servicio gratuito disponible las 24 horas para personas en crisis emocional.</p>
+            <a href="tel:106">Llamar al 106</a>
+        </div>
+        <div class="recurso-card reveal">
+            <div class="icon">🏥</div>
+            <h4>Tu médico de cabecera</h4>
+            <p>El primer paso puede ser hablar con tu médico, quien puede orientarte hacia especialistas.</p>
+            <a href="#">Buscar centro de salud</a>
+        </div>
+        <div class="recurso-card reveal">
+            <div class="icon">💬</div>
+            <h4>Grupos de apoyo</h4>
+            <p>Comunidades presenciales y virtuales donde puedes compartir experiencias.</p>
+            <a href="#">Encontrar grupos</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="emergencia">🆘 En caso de emergencia: llama al 123 o acude al servicio de urgencias más cercano</div>
+    <p>Proyecto educativo sobre <strong style="color:#fff">Salud Mental</strong> · Romper el estigma, promover el bienestar</p>
+</footer>
+
+<script>
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+});
+</script>
+</body>
+</html>
